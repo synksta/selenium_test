@@ -57,7 +57,7 @@ class TestChangePassword(unittest.TestCase):
         )
 
         logging.info("Переход на главную страницу.")
-        driver.find_element(By.CSS_SELECTOR, "[href='/']").click()
+        driver.find_element(By.CSS_SELECTOR, "a[href='/']").click()
 
         # Переход в личный кабинет и смена пароля
         logging.info("Переход в личный кабинет.")
@@ -103,7 +103,7 @@ class TestChangePassword(unittest.TestCase):
         )
 
         # Переход на главную страницу после смены пароля
-        driver.find_element(By.CSS_SELECTOR, "[href='/']").click()
+        driver.find_element(By.CSS_SELECTOR, "a[href='/']").click()
 
         # Ожидание появления кнопки выхода перед нажатием на неё
         logging.info("Ожидание появления элемента выхода.")
@@ -139,7 +139,7 @@ class TestChangePassword(unittest.TestCase):
 
         password_input.send_keys(Keys.RETURN)
 
-        # Ожидание перехода на главную страницу
+        # # Ожидание перехода на главную страницу
         logging.info("Ожидание появления ссылки на главную страницу.")
 
         WebDriverWait(driver, 10).until(
@@ -148,25 +148,22 @@ class TestChangePassword(unittest.TestCase):
 
         logging.info("Переход на главную страницу.")
 
-        driver.find_element(By.CSS_SELECTOR, "[href='/']").click()
+        driver.find_element(By.CSS_SELECTOR, "a[href='/']").click()
 
-        # Проверка успешного входа со старым паролем по наличию ссылки на вход
-        logging.info(
-            "Проверка успешного входа со старым паролем по наличию ссылки на вход"
-        )
-
-        element_present = EC.presence_of_element_located(
-            (By.CSS_SELECTOR, "a[href='/login/']")
-        )
+        logging.info("Ожидание появления ссылки на вход.")
+        # Проверка отображения личного кабинета
         self.assertTrue(
-            element_present(driver),
-            "Не удалось войти со старым паролем. Ожидаем неуспех.",
+            driver.find_element(By.CSS_SELECTOR, "a.login").is_displayed(),
+            "Ссылка на вход не отображается.",
         )
+        logging.info("Ссылка на вход успешно отображается.")
 
-        # Попытка входа с новым паролем
-        logging.info("Переход на страницу авторизации.")
-
+        logging.info("Переход на страницу входа.")
+        login_link = driver.find_element(By.CSS_SELECTOR, "a.login")
         login_link.click()
+
+        # Заполнение формы авторизации с актуальным паролем
+        logging.info("Заполнение формы авторизации с актуальным паролем")
 
         # Заполнение формы авторизации
         email_input = driver.find_element(By.NAME, "USER_LOGIN")
@@ -182,7 +179,7 @@ class TestChangePassword(unittest.TestCase):
 
         password_input.send_keys(Keys.RETURN)
 
-        # Ожидание перехода на главную страницу
+        # # Ожидание перехода на главную страницу
         logging.info("Ожидание появления ссылки на главную страницу.")
 
         WebDriverWait(driver, 10).until(
@@ -191,18 +188,19 @@ class TestChangePassword(unittest.TestCase):
 
         logging.info("Переход на главную страницу.")
 
-        driver.find_element(By.CSS_SELECTOR, "[href='/']").click()
+        driver.find_element(By.CSS_SELECTOR, "a[href='/']").click()
 
-        element_present = EC.presence_of_element_located(
-            (By.CSS_SELECTOR, "a[href='/personal/']")
-        )
-
+        logging.info("Ожидание появления ссылки на вход.")
+        # Проверка отображения личного кабинета
         self.assertTrue(
-            element_present(driver),
-            "Не удалось войти с новым паролем. Тест не пройден.",
+            driver.find_element(By.CSS_SELECTOR, "a[href='/personal/']").is_displayed(),
+            "Ссылка на на личный кабинет не отображается.",
         )
+        logging.info("Ссылка на личный кабинет успешно отображается - тест пройден")
 
-        logging.info("Авторизация успешна.")
+        logging.info("Переход в личный кабинет.")
+        personal_link = driver.find_element(By.CSS_SELECTOR, "a[href='/personal/']")
+        personal_link.click()
 
     def tearDown(self):
         # Закрытие браузера
