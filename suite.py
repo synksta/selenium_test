@@ -4,6 +4,7 @@ from test_links import TestLinks
 from test_login import TestLogin
 from test_change_password import TestChangePassword
 from test_favorites import TestFavorites
+from test_cart import TestCart
 
 # Список всех классов тестов
 test_classes = [
@@ -12,6 +13,7 @@ test_classes = [
     TestLogin,
     TestChangePassword,
     TestFavorites,
+    TestCart,
 ]
 
 
