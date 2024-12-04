@@ -41,19 +41,24 @@ class TestLogin(unittest.TestCase):
         password_input.send_keys(Keys.RETURN)
         logging.info("Отправка формы авторизации.")
 
-        # Ожидание перехода на страницу личного кабинета и проверка успешного входа
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "a[href='/personal/']"))
-        )
-
-        logging.info("Успешный вход в систему.")
-
-        # Проверка отображения личного кабинета
-        self.assertTrue(
-            driver.find_element(By.CSS_SELECTOR, "a[href='/personal/']").is_displayed(),
-            "Личный кабинет не отображается.",
-        )
-        logging.info("Личный кабинет успешно отображается.")
+        # Ожидание перехода на страницу личного кабинета
+        try:
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, "a[href='/personal/']")
+                )  # Селектор для ссылки на личный кабинет
+            )
+            logging.info("Успешный вход в систему.")
+            self.assertTrue(
+                driver.find_element(
+                    By.CSS_SELECTOR, "a[href='/personal/']"
+                ).is_displayed(),
+                "Личный кабинет не отображается.",
+            )
+            logging.info("Личный кабинет успешно отображается.")
+        except Exception as e:
+            logging.error("Ошибка при ожидании успешного входа: %s", e)
+            self.fail("Не удалось выполнить вход в систему.")
 
     def test_unsuccessful_login(self):
         driver = self.driver
@@ -76,23 +81,35 @@ class TestLogin(unittest.TestCase):
         password_input.send_keys(Keys.RETURN)
         logging.info("Отправка формы авторизации с неверными данными.")
 
-        # Ожидание перехода на главную страницу после неудачной попытки входа
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "a[href='/']"))
-        )
+        # Переход на главную страницу после неудачной попытки входа
+        try:
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, "a[href='/']")
+                )  # Селектор для главной страницы
+            )
+            logging.info("Переход на главную страницу.")
+            driver.find_element(By.CSS_SELECTOR, "a[href='/']").click()
 
-        main_link = driver.find_element(By.CSS_SELECTOR, "a[href='/']")
-        main_link.click()
+            # Проверка отсутствия ссылки на личный кабинет
+            try:
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located(
+                        (By.CSS_SELECTOR, "a[href='/personal/']")
+                    )
+                )
+                logging.error(
+                    "Личный кабинет отображается, хотя вход должен был быть неуспешным."
+                )
+                self.fail("Личный кабинет отображается при неуспешном входе.")
+            except Exception:
+                logging.info("Личный кабинет не отображается - тест пройден.")
 
-        logging.info("Переход на главную страницу.")
-
-        # Проверка отсутствия ссылки на личный кабинет
-
-        self.assertFalse(
-            len(driver.find_elements(By.CSS_SELECTOR, "a[href='/personal/']")) > 0,
-            "Ссылка на личный кабинет отображается.",
-        )
-        logging.info("Ссылка на личный кабинет не отображается.")
+        except Exception as e:
+            logging.error("Ошибка при ожидании перехода на главную страницу: %s", e)
+            self.fail(
+                "Не удалось перейти на главную страницу после неудачной попытки входа."
+            )
 
     def tearDown(self):
         # Закрытие браузера

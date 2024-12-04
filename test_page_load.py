@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-class TestLoadPage(unittest.TestCase):
+class TestPageLoad(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -16,9 +16,8 @@ class TestLoadPage(unittest.TestCase):
         options.page_load_strategy = "eager"  # Установка стратегии загрузки на 'eager'
         cls.driver = webdriver.Firefox(options=options)
         cls.driver.set_page_load_timeout(config.TIMEOUT)
-        cls.driver.maximize_window()
 
-    def test_page_load_speed(self):
+    def test_page_load_time_within_timeout(self):
         start_time = time.time()
 
         try:
@@ -40,7 +39,7 @@ class TestLoadPage(unittest.TestCase):
             load_time, config.TIMEOUT, "Страница загружается слишком долго!"
         )
 
-    def test_images_loaded(self):
+    def test_images_load_within_timeout(self):
         start_time = time.time()
 
         try:
