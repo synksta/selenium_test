@@ -11,6 +11,11 @@ AUTH_PASSWORD_CORRECT = "Ghse4zhH9CYX"
 AUTH_EMAIL_INVALID = "invalid@example.com"
 AUTH_PASSWORD_INVALID = "wrongpassword"
 
+# PERSONAL
+NAME = "Vasya Pupkin"
+PHONE = "8005553535"
+ADDRESS = "Ulitsa Pushkina, Dom Kolotushkina, 1, 1"
+
 
 def update_config(old_password, new_password):
     with open("config.py", "r") as file:

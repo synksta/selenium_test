@@ -2,7 +2,7 @@ import unittest
 from test_page_load import TestPageLoad
 from test_links import TestLinks
 from test_login import TestLogin
-from test_change_password import TestChangePassword
+from test_change_user_data import TestChangeUserData
 from test_favorites import TestFavorites
 from test_cart import TestCart
 
@@ -11,7 +11,7 @@ test_classes = [
     TestPageLoad,
     TestLinks,
     TestLogin,
-    TestChangePassword,
+    TestChangeUserData,
     TestFavorites,
     TestCart,
 ]
