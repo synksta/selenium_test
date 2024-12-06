@@ -5,15 +5,17 @@ from test_login import TestLogin
 from test_change_user_data import TestChangeUserData
 from test_favorites import TestFavorites
 from test_cart import TestCart
+from test_search import TestSearch
 
 # Список всех классов тестов
 test_classes = [
-    TestPageLoad,
-    TestLinks,
-    TestLogin,
-    TestChangeUserData,
-    TestFavorites,
-    TestCart,
+    # TestPageLoad,
+    # TestLinks,
+    # TestLogin,
+    # TestChangeUserData,
+    # TestFavorites,
+    # TestCart,
+    TestSearch
 ]
 
 

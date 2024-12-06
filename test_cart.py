@@ -25,7 +25,7 @@ class TestCart(unittest.TestCase):
         self.driver.quit()
         logging.info("Закрыт веб-драйвер.")
 
-    @unittest.skip("Skipped")
+    # @unittest.skip("Skipped")
     def test_add_to_cart(self):
         """Проверяет функциональность добавления товара в корзину и его последующее удаление.
 

@@ -16,6 +16,9 @@ NAME = "Vasya Pupkin"
 PHONE = "8005553535"
 ADDRESS = "Ulitsa Pushkina, Dom Kolotushkina, 1, 1"
 
+# SEARCH
+SEARCH_QUERY = "пицца"
+
 
 def update_config(old_password, new_password):
     with open("config.py", "r") as file:
